@@ -53,8 +53,8 @@ const News = (props) => {
       </h1>
       {loading && <Spinner />}
       <InfiniteScroll
-        dataLength={articles.length}
         next={fetchMoreData}
+        dataLength={articles.length}
         hasMore={articles.length !== totalResults}
         loader={<Spinner />}
       >
