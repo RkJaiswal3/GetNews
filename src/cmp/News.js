@@ -51,7 +51,7 @@ const News = (props) => {
       <h1 className="text-center" style={{ margin: "35px 0px", marginTop: "90px" }}>
         Top Headlines From {capitalizeLetter(props.category)}
       </h1>
-      {loading && <Spinner />}
+      {loading}
       <InfiniteScroll
         next={fetchMoreData}
         dataLength={Array.isArray(articles) ? articles.length : 0}
@@ -60,25 +60,23 @@ const News = (props) => {
       >
         <div className="container">
           <div className="row">
-            {articles.map((element) => {
-              return (
+            {Array.isArray(articles) && articles.length > 0 ? (
+              articles.map((element) => (
                 <div className="col-md-4" key={element.url}>
                   <NewsItem
                     source={element.source.name}
                     title={element.title ? element.title.slice(0, 40) : ""}
                     author={!element.author ? "Unknown" : element.author}
                     date={element.publishedAt}
-                    description={
-                      element.description
-                        ? element.description.slice(0, 88)
-                        : ""
-                    }
+                    description={element.description ? element.description.slice(0, 88) : ""}
                     imageUrl={element.urlToImage}
                     newsUrl={element.url}
                   />
                 </div>
-              );
-            })}
+              ))
+            ) : (
+              <Spinner /> // Show loading message if articles are not available yet
+            )}
           </div>
         </div>
       </InfiniteScroll>
